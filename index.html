@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Bom Appétit · Hamburgueria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #111111;
+            color: #ffffff;
+            line-height: 1.5;
+            padding-bottom: 90px;
+        }
+
+        /* ===== HEADER FIXO ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #ff4d1c;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-loja {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #1e1e1e;
+            padding: 6px 12px;
+            border-radius: 40px;
+            border: 1px solid #333;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4caf50;
+            box-shadow: 0 0 8px #4caf50;
+        }
+
+        .status-indicator.fechado {
+            background: #f44336;
+            box-shadow: 0 0 8px #f44336;
+        }
+
+        .status-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .btn-info {
+            background: none;
+            border: 1px solid #ff4d1c;
+            color: #ff4d1c;
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            margin-top: 70px;
+            background: linear-gradient(120deg, #0a0a0a 0%, #2a1a0e 100%);
+            padding: 40px 24px 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-img {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(145deg, #ff6b2b, #b73e00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 4px solid #ffa76b;
+            font-size: 6rem;
+            overflow: hidden;
+        }
+
+        .hero-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hero h2 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #ff8a5c;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #bbbbbb;
+            margin-bottom: 25px;
+        }
+
+        .hero .btn-hero {
+            background: #ff4d1c;
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #b2340e;
+        }
+
+        .hero .btn-hero:active {
+            transform: translateY(8px);
+            box-shadow: none;
+        }
+
+        /* ===== NAVEGAÇÃO CATEGORIAS ===== */
+        .nav-categorias {
+            background: #1a1a1a;
+            padding: 16px 20px;
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            position: sticky;
+            top: 70px;
+            z-index: 90;
+            border-bottom: 1px solid #333;
+        }
+
+        .cat-item {
+            background: #2a2a2a;
+            color: #e0e0e0;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            border: 1px solid #3f3f3f;
+            flex-shrink: 0;
+        }
+
+        .cat-item:active {
+            background: #ff4d1c;
+            color: #000;
+        }
+
+        /* ===== SEÇÕES DO CARDÁPIO ===== */
+        .secao-cardapio {
+            padding: 24px 20px 10px;
+            scroll-margin-top: 130px;
+        }
+
+        .titulo-secao {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ff7b3a;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 6px solid #ff4d1c;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .card-produto {
+            background: #1e1e1e;
+            border-radius: 24px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid #333;
+            transition: 0.2s;
+        }
+
+        .card-produto:active {
+            border-color: #ff6a33;
+            background: #262626;
+        }
+
+        .produto-imagem {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(145deg, #4a3729, #2e241e);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            border: 2px solid #ff6a33;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .produto-imagem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .produto-info {
+            flex: 1;
+        }
+
+        .produto-nome {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .produto-desc {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .produto-preco-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .produto-preco {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #ffb347;
+        }
+
+        .btn-adicionar {
+            background: #ff4d1c;
+            border: none;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #b2340e;
+            border: 1px solid #ff9966;
+        }
+
+        .btn-adicionar:active {
+            transform: translateY(3px);
+            box-shadow: none;
+        }
+
+        /* ===== BOTÕES SOCIAIS ===== */
+        .social-buttons {
+            display: flex;
+            gap: 12px;
+            padding: 20px;
+            justify-content: center;
+            background: #1a1a1a;
+            border-top: 1px solid #333;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .social-btn.whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .social-btn.instagram {
+            background: linear-gradient(45deg, #f09433, #d62976, #962fbf);
+            color: white;
+        }
+
+        .social-btn img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* ===== CARRINHO FLUTUANTE ===== */
+        .cart-fab {
+            position: fixed;
+            bottom: 25px;
+            left: 20px;
+            right: 20px;
+            margin: 0 auto;
+            max-width: 400px;
+            background: #222;
+            border: 2px solid #ff4d1c;
+            border-radius: 60px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px #ff4d1c80;
+            z-index: 200;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            background: rgba(30, 30, 30, 0.98);
+        }
+
+        .cart-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .cart-badge {
+            background: #ff4d1c;
+            color: black;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-weight: 800;
+        }
+
+        .cart-total {
+            color: #ffb347;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        /* ===== MODAL INFORMAÇÕES ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 300;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-panel {
+            background: #1c1c1c;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 40px;
+            padding: 30px 24px;
+            color: white;
+            border: 2px solid #ff4d1c;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.8rem;
+            color: #ff7b3a;
+        }
+
+        .btn-fechar-modal {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* ===== INFORMAÇÕES ===== */
+        .info-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .info-title {
+            font-size: 1.2rem;
+            color: #ff7b3a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .service-option {
+            background: #2a2a2a;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #444;
+            cursor: pointer;
+        }
+
+        .service-option.selected {
+            border: 2px solid #ff4d1c;
+            background: #332211;
+        }
+
+        .service-info h4 {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .service-info p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .check-indicator {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .service-option.selected .check-indicator {
+            background: #ff4d1c;
+            border-color: #ff4d1c;
+        }
+
+        .horario-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .horario-dia {
+            font-weight: 600;
+        }
+
+        .horario-hora {
+            color: #ffb347;
+        }
+
+        .gratis-badge {
+            background: #4caf50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* ===== MODAL CARRINHO ===== */
+        .lista-carrinho {
+            list-style: none;
+            margin-bottom: 20px;
+            max-height: 30vh;
+            overflow-y: auto;
+        }
+
+        .item-carrinho {
+            background: #2d2d2d;
+            border-radius: 20px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-nome {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .item-preco {
+            color: #ffb347;
+            font-size: 0.9rem;
+        }
+
+        .item-acoes {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .item-acoes button {
+            background: #3f3f3f;
+            border: none;
+            color: #ffb347;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: 1px solid #ff7b3a;
+        }
+
+        .item-qtd {
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .total-modal {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffb347;
+            text-align: right;
+            margin: 20px 0;
+        }
+
+        /* ===== FORMULÁRIO DE PEDIDO ===== */
+        .form-pedido input, .form-pedido select, .form-pedido textarea {
+            width: 100%;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            background: #363636;
+            border: 1px solid #555;
+            border-radius: 40px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-pedido select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffb347' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+        }
+
+        .form-pedido textarea {
+            border-radius: 20px;
+            min-height: 80px;
+        }
+
+        .form-pedido input:focus, .form-pedido select:focus, .form-pedido textarea:focus {
+            outline: 2px solid #ff7b3a;
+        }
+
+        .btn-prosseguir {
+            background: #ff4d1c;
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 16px;
+            width: 100%;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        .btn-voltar {
+            background: #333;
+            border: none;
+            color: #ccc;
+            padding: 12px;
+            width: 100%;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-enviar-whatsapp {
+            background: #25d366;
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 16px;
+            width: 100%;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .row-2col {
+            display: flex;
+            gap: 10px;
+        }
+
+        .row-2col input {
+            flex: 1;
+        }
+
+        @media (min-width: 600px) {
+            .grid-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="logo">
+        <img src="img/logo-bom-appetit.png" alt="Bom Appetit Emanuel">
+    </div>
+    <div class="header-right">
+        <div class="status-loja" id="statusLoja">
+            <span class="status-indicator" id="statusIndicator"></span>
+            <span class="status-text" id="statusText">Aberto</span>
+        </div>
+        <button class="btn-info" id="btnInfo">i</button>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-img">
+        <img src="img/logo-bom-appetit.png" alt="Bom Appetit Emanuel">
+    </div>
+    <h2>BOM APPETIT EMANUEL</h2>
+    <p>Rua Barão de Varginha, 203 · Porções e hambúrgueres</p>
+    <button class="btn-hero" id="btnHeroCardapio">VER CARDÁPIO</button>
+</section>
+
+<div class="nav-categorias" id="navCategorias">
+    <span class="cat-item" data-cat="promocoes"> Promoções</span>
+    <span class="cat-item" data-cat="hamburgueres"> Hambúrgueres</span>
+    <span class="cat-item" data-cat="combos"> Combos na Caixa</span>
+    <span class="cat-item" data-cat="porcoes"> Porções</span>
+    <span class="cat-item" data-cat="bebidas"> Refrigerantes</span>
+    <span class="cat-item" data-cat="sucos"> Sucos</span>
+</div>
+
+<!-- PROMOÇÕES -->
+<section id="promocoes" class="secao-cardapio">
+    <h2 class="titulo-secao"> Promoções</h2>
+    <div class="grid-cards" id="grid-promocoes"></div>
+</section>
+
+<!-- HAMBÚRGUERES -->
+<section id="hamburgueres" class="secao-cardapio">
+    <h2 class="titulo-secao"> Hambúrgueres</h2>
+    <div class="grid-cards" id="grid-hamburgueres"></div>
+</section>
+
+<!-- COMBOS NA CAIXA -->
+<section id="combos" class="secao-cardapio">
+    <h2 class="titulo-secao"> Combos na Caixa</h2>
+    <div class="grid-cards" id="grid-combos"></div>
+</section>
+
+<!-- PORÇÕES -->
+<section id="porcoes" class="secao-cardapio">
+    <h2 class="titulo-secao"> Porções</h2>
+    <div class="grid-cards" id="grid-porcoes"></div>
+</section>
+
+<!-- REFRIGERANTES -->
+<section id="bebidas" class="secao-cardapio">
+    <h2 class="titulo-secao"> Refrigerantes</h2>
+    <div class="grid-cards" id="grid-bebidas"></div>
+</section>
+
+<!-- SUCOS -->
+<section id="sucos" class="secao-cardapio">
+    <h2 class="titulo-secao"> Sucos</h2>
+    <div class="grid-cards" id="grid-sucos"></div>
+</section>
+
+<div class="social-buttons">
+    <a href="https://wa.me/5531991591673" target="_blank" class="social-btn whatsapp">
+        <img src="img/whatsapp.png" alt="WhatsApp">
+    </a>
+    <a href="https://instagram.com/bomappetitemanuel" target="_blank" class="social-btn instagram">
+        <img src="img/instagram.png" alt="Instagram">
+    </a>
+</div>
+
+<div class="cart-fab" id="cartFab">
+    <div class="cart-info">
+        <span>🛒</span>
+        <span class="cart-badge" id="cartCounter">0</span>
+        <span><span id="itemCount">0</span> itens</span>
+    </div>
+    <div class="cart-total" id="cartTotalFab">R$ 0,00</div>
+</div>
+
+<!-- MODAL INFORMAÇÕES -->
+<div class="modal-overlay" id="infoModal">
+    <div class="modal-panel">
+        <div class="modal-header">
+            <h3>📋 Informações</h3>
+            <button class="btn-fechar-modal" id="closeInfoModal">✕</button>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-title">🚚 Tipo de serviço</div>
+            <div class="service-option selected" id="optionDelivery">
+                <div class="service-info">
+                    <h4>Delivery</h4>
+                    <p>20 - 35 min • <span class="gratis-badge">Grátis a partir de R$ 50</span></p>
+                </div>
+                <div class="check-indicator">✓</div>
+            </div>
+            <div class="service-option" id="optionRetirada">
+                <div class="service-info">
+                    <h4>Retirada</h4>
+                    <p>Peça e retire no balcão</p>
+                </div>
+                <div class="check-indicator">✓</div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">🕒 Horário de funcionamento</div>
+            <div class="horario-item"><span class="horario-dia">Domingo</span><span class="horario-hora">18:00 - Meia noite</span></div>
+            <div class="horario-item"><span class="horario-dia">Segunda-feira</span><span class="horario-hora">18:00 - Meia noite</span></div>
+            <div class="horario-item"><span class="horario-dia">Terça-feira</span><span class="horario-hora">18:00 - Meia noite</span></div>
+            <div class="horario-item"><span class="horario-dia">Quarta-feira</span><span class="horario-hora">18:00 - Meia noite</span></div>
+            <div class="horario-item"><span class="horario-dia">Quinta-feira</span><span class="horario-hora">18:00 - Meia noite</span></div>
+            <div class="horario-item"><span class="horario-dia">Sexta-feira</span><span class="horario-hora">18:00 - Meia noite</span></div>
+            <div class="horario-item"><span class="horario-dia">Sábado</span><span class="horario-hora">18:00 - Meia noite</span></div>
+        </div>
+
+        <button class="btn-fechar-modal" id="closeInfoBottom" style="background:#333; border:none; color:#ccc; padding:12px; border-radius:40px; width:100%;">Fechar</button>
+    </div>
+</div>
+
+<!-- MODAL CARRINHO COM ETAPAS -->
+<div class="modal-overlay" id="cartModal">
+    <div class="modal-panel">
+        <div class="modal-header">
+            <h3 id="modalTitle">🛒 Seu pedido</h3>
+            <button class="btn-fechar-modal" id="closeModalBtn">✕</button>
+        </div>
+        
+        <!-- ETAPA 1: Carrinho -->
+        <div id="etapaCarrinho">
+            <ul class="lista-carrinho" id="cartItemsList"></ul>
+            <div class="total-modal">Total: R$ <span id="modalTotal">0,00</span></div>
+            <button class="btn-prosseguir" id="btnProsseguirDados"> Avançar </button>
+        </div>
+        
+        <!-- ETAPA 2: Dados pessoais -->
+        <div id="etapaDados" style="display:none;">
+            <h4 style="color:#ff7b3a; margin-bottom:15px;">📋 Seus dados</h4>
+            <div class="form-pedido">
+                <input type="text" id="nomeCliente" placeholder="Seu nome completo *">
+                <input type="tel" id="telefoneCliente" placeholder="WhatsApp com DDD *">
+                
+                <select id="tipoServico">
+                    <option value="Delivery">Delivery</option>
+                    <option value="Retirada">Retirada</option>
+                </select>
+                
+                <button class="btn-prosseguir" id="btnProsseguirEndereco">Avançar </button>
+                <button class="btn-voltar" id="btnVoltarCarrinho"> Voltar </button>
+            </div>
+        </div>
+        
+        <!-- ETAPA 3: Endereço -->
+        <div id="etapaEndereco" style="display:none;">
+            <h4 style="color:#ff7b3a; margin-bottom:15px;">📍 Endereço de entrega</h4>
+            <div class="form-pedido">
+                <input type="text" id="enderecoCliente" placeholder="Rua/Avenida *">
+                
+                <div class="row-2col">
+                    <input type="text" id="numeroCliente" placeholder="Número *">
+                    <input type="text" id="complementoCliente" placeholder="Complemento">
+                </div>
+                
+                <input type="text" id="bairroCliente" placeholder="Bairro *">
+                <input type="text" id="referenciaCliente" placeholder="Ponto de referência">
+                
+                <button class="btn-prosseguir" id="btnProsseguirOpcoes"> Avançar </button>
+                <button class="btn-voltar" id="btnVoltarDados"> Voltar </button>
+            </div>
+        </div>
+        
+        <!-- ETAPA 4: Opções do pedido -->
+        <div id="etapaOpcoes" style="display:none;">
+            <h4 style="color:#ff7b3a; margin-bottom:15px;">⚙️ Opções do pedido</h4>
+            <div class="form-pedido">
+                <select id="tipoPedido">
+                    <option value="agora">Pedir agora</option>
+                    <option value="agendar">Agendar para outro horário</option>
+                </select>
+                
+                <div id="campoAgendamento" style="display:none;">
+                    <input type="datetime-local" id="dataAgendamento">
+                </div>
+                
+                <textarea id="comentarioCliente" placeholder="Adicionar comentário (opcional)"></textarea>
+                
+                <input type="text" id="cupomCliente" placeholder="Cupom de desconto (opcional)">
+                
+                <select id="formaPagamento">
+                    <option value="PIX">PIX</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="Cartão de crédito">Cartão de crédito</option>
+                    <option value="Cartão de débito">Cartão de débito</option>
+                </select>
+                
+                <div id="campoTroco" style="display:none;">
+                    <input type="text" id="trocoCliente" placeholder="Precisa de troco para quanto?">
+                </div>
+                
+                <button class="btn-enviar-whatsapp" id="enviarWhatsAppBtn"> Enviar pedido via WhatsApp</button>
+                <button class="btn-voltar" id="btnVoltarEndereco">Voltar</button>
+            </div>
+        </div>
+        
+        <button class="btn-voltar" id="closeModalBottomBtn" style="margin-top:15px;">Fechar</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ==================== PRODUTOS ====================
+        const produtos = [
+            // ===== HAMBÚRGUERES =====
+            { id: 'ham1', nome: 'Hamburguês', desc: 'Pão, 1 Carne Bovina, Presunto, Mussarela, Ovo, Milho, Alface, Tomate e Molho Da Casa', preco: 16.90, img: '🍔', cat: 'hamburgueres' },
+            { id: 'ham2', nome: 'Mistão Turbinado', desc: 'Pão de forma, carne de hamburguer, 3 fatias de mussarela derretida, 2 fatias de presunto, alface, tomate e molho da casa', preco: 14.50, img: '🥪', cat: 'hamburgueres' },
+            { id: 'ham3', nome: 'X-Vegetariano', desc: 'Pão fresquinho com queijo mussarela derretido, ovo, Catupiry, pedaços de abacaxi, batata palha, tomate, alface, milho e molho da casa', preco: 19.90, img: '🌱', cat: 'hamburgueres' },
+            { id: 'ham4', nome: 'X-Salada', desc: 'Pão macio, hambúrguer 90g, queijo derretido, presunto, alface, tomate, batata palha, bacon crocante e molho da casa', preco: 21.90, img: '🥗', cat: 'hamburgueres' },
+            { id: 'ham5', nome: 'Frango Explosão com Catupiry', desc: 'Dupla dose de frango (hambúrguer de frango + frango desfiado), milho, alface, tomate, batata palha, Catupiry e molho especial', preco: 24.90, img: '🐔', cat: 'hamburgueres' },
+            { id: 'ham6', nome: 'X-Ovo Bacon', desc: 'Pão tostado, hambúrguer 90g, queijo derretido, ovo, bacon crocante, alface, tomate, batata palha e molho da casa', preco: 24.90, img: '🥓', cat: 'hamburgueres' },
+            { id: 'ham7', nome: 'X-Bacon Emanuel Duplo', desc: 'Dois hambúrgueres 90g, queijo derretido, presunto, bacon crocante, alface, tomate, milho, batata palha e molho da casa', preco: 25.90, img: '🍔🍔', cat: 'hamburgueres' },
+            { id: 'ham8', nome: 'X-Tudo', desc: 'Pão, hambúrguer, ovo, presunto, bacon, queijo mussarela, milho, batata palha, Catupiry, alface, tomate e molho especial', preco: 23.00, img: '⭐', cat: 'hamburgueres' },
+            { id: 'ham9', nome: 'X-Tudo especial', desc: 'Dois hambúrgueres, frango desfiado, bacon, ovo, presunto, queijo, milho, batata palha, alface, tomate e molho especial', preco: 25.90, img: '👑', cat: 'hamburgueres' },
+            { id: 'ham10', nome: 'X-Calabresa Premium', desc: 'Pão tostado, hambúrguer, queijo, calabresa acebolada, alface, tomate, batata palha e molho da casa', preco: 27.90, img: '🌭', cat: 'hamburgueres' },
+            { id: 'ham11', nome: 'X-Tudão Emanuel', desc: 'Dois hambúrgueres, dois queijos, bacon, ovo, calabresa, salsicha, alface, tomate, milho, batata palha, molho da casa e abacaxi', preco: 34.90, img: '🚀', cat: 'hamburgueres' },
+
+            // ===== COMBOS NA CAIXA =====
+            { id: 'combo1', nome: 'Kit Solteiro', desc: '1 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', preco: 50.00, img: '📦', cat: 'combos' },
+            { id: 'combo2', nome: 'Kit Casal', desc: '2 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', preco: 65.00, img: '📦📦', cat: 'combos' },
+            { id: 'combo3', nome: 'Kit dos Amigos', desc: '3 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', preco: 80.00, img: '📦📦📦', cat: 'combos' },
+            { id: 'combo4', nome: 'Kit Familia', desc: '4 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', preco: 90.00, img: '👪', cat: 'combos' },
+
+            // ===== PORÇÕES =====
+            { id: 'por1', nome: 'Batata com calabresa queijo e bacon', desc: 'Batata com calabresa, queijo e bacon (escolha entre cheddar ou mussarela)', preco: 26.00, img: '🍟', cat: 'porcoes' },
+            { id: 'por2', nome: 'Mini Chicken c/ batata queijo e bacon', desc: 'Mini Chicken, batata frita, queijo e bacon (escolha mussarela ou cheddar)', preco: 22.00, img: '🐔', cat: 'porcoes' },
+
+            // ===== REFRIGERANTES =====
+            { id: 'refri1', nome: 'Coca Cola Mini 200ml', desc: 'Coca Cola 200ml', preco: 3.00, img: 'img/coca-mini.png', cat: 'bebidas' },
+            { id: 'refri2', nome: 'Coca Cola Zero 200ml', desc: 'Coca Cola Zero 200ml', preco: 3.00, img: 'img/coca-lata-zero.png', cat: 'bebidas' },
+            { id: 'refri3', nome: 'Guaraná Mini 200ml', desc: 'Guaraná Antarctica 200ml', preco: 3.00, img: 'img/guarana-mini.png', cat: 'bebidas' },
+            { id: 'refri4', nome: 'Guaraná Zero 200ml', desc: 'Guaraná Zero 200ml', preco: 3.00, img: 'img/guarana-lata-zero.png', cat: 'bebidas' },
+            { id: 'refri5', nome: 'Coca Cola 350ml', desc: 'Coca Cola Lata 350ml', preco: 6.00, img: 'img/coca-lata.png', cat: 'bebidas' },
+            { id: 'refri6', nome: 'Coca Cola Zero 350ml', desc: 'Coca Cola Zero Lata 350ml', preco: 6.00, img: 'img/coca-lata-zero.png', cat: 'bebidas' },
+            { id: 'refri7', nome: 'Guaraná Antártica 350ml', desc: 'Guaraná Antarctica Lata 350ml', preco: 6.00, img: 'img/guarana-lata.png', cat: 'bebidas' },
+            { id: 'refri8', nome: 'Guaraná Zero 350ml', desc: 'Guaraná Zero Lata 350ml', preco: 6.00, img: 'img/guarana-lata-zero.png', cat: 'bebidas' },
+            { id: 'refri9', nome: 'Coca Cola 2 Litros', desc: 'Coca Cola 2 Litros', preco: 14.00, img: 'img/coca-cola-2l.png', cat: 'bebidas' },
+            { id: 'refri10', nome: 'Fanta Guaraná 2 Litros', desc: 'Fanta Guaraná 2 Litros', preco: 12.00, img: 'img/fanta-guarana-2l.png', cat: 'bebidas' },
+            { id: 'refri11', nome: 'Mate Couro 1 Litro', desc: 'Mate Couro 1 Litro', preco: 8.00, img: 'img/mate-couro-1l.png', cat: 'bebidas' },
+
+            // ===== SUCOS =====
+            { id: 'suco1', nome: 'Del Valle Maracujá 290ml', desc: 'Suco Del Valle sabor Maracujá - 290ml', preco: 8.00, img: 'img/del-valle-maracuja.png', cat: 'sucos' },
+            { id: 'suco2', nome: 'Del Valle Manga 290ml', desc: 'Suco Del Valle sabor Manga - 290ml', preco: 8.00, img: 'img/del-valle-manga.png', cat: 'sucos' },
+            { id: 'suco3', nome: 'Del Valle Pêssego 290ml', desc: 'Suco Del Valle sabor Pêssego - 290ml', preco: 8.00, img: 'img/del-valle-pessego.png', cat: 'sucos' },
+            { id: 'suco4', nome: 'Del Valle Uva 290ml', desc: 'Suco Del Valle sabor Uva - 290ml', preco: 8.00, img: 'img/del-valle-uva.png', cat: 'sucos' },
+
+            // ===== PROMOÇÕES =====
+            { id: 'promo1', nome: '2 X-Tudo + 1 Porção de Mini Chicken', desc: '2 X-Tudo + 1 Porção de Mini Chicken com Batata, Cheddar e Bacon + Guaraná 2 Litros', preco: 89.90, img: '🔥', cat: 'promocoes' },
+            { id: 'promo2', nome: '2 X-tudo + Mate Couro 1 Litro', desc: '2 X-tudo + Mate Couro 1 Litro', preco: 54.90, img: '🔥', cat: 'promocoes' },
+            { id: 'promo3', nome: '4 X-tudo + Guaraná 2 Litros', desc: '4 X-tudo + Guaraná Antarctica 2 Litros', preco: 98.90, img: '🔥', cat: 'promocoes' },
+            { id: 'promo4', nome: 'X-tudo + Coca cola 350ml', desc: 'X-tudo + Coca cola 350ml', preco: 28.90, img: '🔥', cat: 'promocoes' },
+            { id: 'promo5', nome: 'X-Ovo Bacon + Coca cola 350ml', desc: 'X-Ovo Bacon + Coca cola 350ml', preco: 38.90, img: '🔥', cat: 'promocoes' },
+            { id: 'promo6', nome: 'Kit solteiro + Mate couro 1 litro', desc: 'Kit solteiro + Mate couro 1 litro', preco: 58.00, img: '🔥', cat: 'promocoes' },
+            { id: 'promo7', nome: 'Kit casal + Guaraná 2 litros', desc: 'Kit casal + Guaraná 2 litros', preco: 77.00, img: '🔥', cat: 'promocoes' },
+            { id: 'promo8', nome: 'Omelete 2 Ovos', desc: 'Omelete 2 Ovos', preco: 12.90, img: '🍳', cat: 'promocoes' },
+            { id: 'promo9', nome: 'Omelete 4 Ovos', desc: 'Omelete 4 Ovos', preco: 18.90, img: '🍳', cat: 'promocoes' },
+            { id: 'promo10', nome: 'Laricão 3x1', desc: 'X-Bacon Emanuel Duplo + 100g Batata + Coca Cola lata', preco: 39.90, img: '🔥', cat: 'promocoes' }
+        ];
+
+        // ==================== CARRINHO ====================
+        let carrinho = JSON.parse(localStorage.getItem('bomAppetitCart')) || [];
+
+        // ==================== VERIFICAR HORÁRIO ====================
+        function verificarHorario() {
+            const agora = new Date();
+            const hora = agora.getHours();
+            const minutos = agora.getMinutes();
+            const horaAtual = hora + minutos / 60;
+            const horarioAberto = horaAtual >= 18.0 || horaAtual < 0.5;
+            const indicator = document.getElementById('statusIndicator');
+            const text = document.getElementById('statusText');
+
+            if (horarioAberto) {
+                indicator.className = 'status-indicator';
+                text.innerText = 'Aberto';
+            } else {
+                indicator.className = 'status-indicator fechado';
+                text.innerText = 'Fechado';
+            }
+        }
+
+        // ==================== FUNÇÕES DO CARRINHO ====================
+        function adicionarAoCarrinho(prodId) {
+            const item = carrinho.find(i => i.id === prodId);
+            if (item) {
+                item.qtd += 1;
+            } else {
+                carrinho.push({ id: prodId, qtd: 1 });
+            }
+            atualizarCarrinho();
+        }
+
+        function alterarQuantidade(prodId, delta) {
+            const index = carrinho.findIndex(i => i.id === prodId);
+            if (index === -1) return;
+            const novaQtd = carrinho[index].qtd + delta;
+            if (novaQtd <= 0) {
+                carrinho.splice(index, 1);
+            } else {
+                carrinho[index].qtd = novaQtd;
+            }
+            atualizarCarrinho();
+        }
+
+        function atualizarCarrinho() {
+            localStorage.setItem('bomAppetitCart', JSON.stringify(carrinho));
+
+            const totalItens = carrinho.reduce((acc, i) => acc + i.qtd, 0);
+            document.getElementById('itemCount').innerText = totalItens;
+            document.getElementById('cartCounter').innerText = totalItens;
+
+            let totalValor = 0;
+            carrinho.forEach(item => {
+                const prod = produtos.find(p => p.id === item.id);
+                if (prod && prod.preco > 0) totalValor += prod.preco * item.qtd;
+            });
+            const totalStr = totalValor.toFixed(2).replace('.', ',');
+            document.getElementById('cartTotalFab').innerText = `R$ ${totalStr}`;
+            document.getElementById('modalTotal').innerText = totalStr;
+
+            renderizarCarrinhoModal();
+        }
+
+        function renderizarCarrinhoModal() {
+            const lista = document.getElementById('cartItemsList');
+            if (carrinho.length === 0) {
+                lista.innerHTML = '<div style="text-align:center;padding:25px;color:#888;">🛒 Carrinho vazio</div>';
+                return;
+            }
+
+            let html = '';
+            carrinho.forEach(item => {
+                const prod = produtos.find(p => p.id === item.id);
+                if (!prod) return;
+                html += `
+                    <li class="item-carrinho">
+                        <div>
+                            <div class="item-nome">${prod.nome}</div>
+                            <div class="item-preco">R$ ${prod.preco.toFixed(2).replace('.',',')}</div>
+                        </div>
+                        <div class="item-acoes">
+                            <button class="btn-qtd-menos" data-id="${prod.id}">−</button>
+                            <span class="item-qtd">${item.qtd}</span>
+                            <button class="btn-qtd-mais" data-id="${prod.id}">+</button>
+                            <button class="btn-remover" data-id="${prod.id}" style="color:#ff6666;">✕</button>
+                        </div>
+                    </li>
+                `;
+            });
+            lista.innerHTML = html;
+
+            document.querySelectorAll('.btn-qtd-mais').forEach(btn => {
+                btn.addEventListener('click', () => alterarQuantidade(btn.dataset.id, 1));
+            });
+            document.querySelectorAll('.btn-qtd-menos').forEach(btn => {
+                btn.addEventListener('click', () => alterarQuantidade(btn.dataset.id, -1));
+            });
+            document.querySelectorAll('.btn-remover').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    carrinho = carrinho.filter(i => i.id !== btn.dataset.id);
+                    atualizarCarrinho();
+                });
+            });
+        }
+
+        // ==================== RENDERIZAR CARDÁPIO ====================
+        function renderizarCardapio() {
+            const grids = {
+                promocoes: document.getElementById('grid-promocoes'),
+                hamburgueres: document.getElementById('grid-hamburgueres'),
+                combos: document.getElementById('grid-combos'),
+                porcoes: document.getElementById('grid-porcoes'),
+                bebidas: document.getElementById('grid-bebidas'),
+                sucos: document.getElementById('grid-sucos')
+            };
+
+            for (let key in grids) grids[key].innerHTML = '';
+
+            produtos.forEach(prod => {
+                const card = document.createElement('div');
+                card.className = 'card-produto';
+                
+                let precoDisplay = prod.preco > 0 ? `R$ ${prod.preco.toFixed(2).replace('.',',')}` : 'Consulte';
+                
+                const isEmoji = prod.img.length <= 5 || (prod.img.startsWith('img/') === false && prod.img.startsWith('http') === false);
+                
+                let imagemHtml = '';
+                
+                if (isEmoji) {
+                    imagemHtml = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:2.5rem;">${prod.img}</div>`;
+                } else {
+                    imagemHtml = `<img src="${prod.img}" alt="${prod.nome}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:2.5rem;\'>🍔</div>';">`;
+                }
+                
+                card.innerHTML = `
+                    <div class="produto-imagem">
+                        ${imagemHtml}
+                    </div>
+                    <div class="produto-info">
+                        <div class="produto-nome">${prod.nome}</div>
+                        <div class="produto-desc">${prod.desc.substring(0, 60)}${prod.desc.length > 60 ? '...' : ''}</div>
+                        <div class="produto-preco-row">
+                            <span class="produto-preco">${precoDisplay}</span>
+                            ${prod.preco > 0 ? `<button class="btn-adicionar" data-id="${prod.id}">+</button>` : ''}
+                        </div>
+                    </div>
+                `;
+                
+                grids[prod.cat].appendChild(card);
+            });
+
+            document.querySelectorAll('.btn-adicionar').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    adicionarAoCarrinho(btn.dataset.id);
+                });
+            });
+        }
+
+        // ==================== CONTROLE DE ETAPAS ====================
+        const etapaCarrinho = document.getElementById('etapaCarrinho');
+        const etapaDados = document.getElementById('etapaDados');
+        const etapaEndereco = document.getElementById('etapaEndereco');
+        const etapaOpcoes = document.getElementById('etapaOpcoes');
+        const modalTitle = document.getElementById('modalTitle');
+
+        // Mostrar/esconder campo de agendamento
+        document.getElementById('tipoPedido').addEventListener('change', function() {
+            document.getElementById('campoAgendamento').style.display = this.value === 'agendar' ? 'block' : 'none';
+        });
+
+        // Mostrar/esconder campo de troco
+        document.getElementById('formaPagamento').addEventListener('change', function() {
+            document.getElementById('campoTroco').style.display = this.value === 'Dinheiro' ? 'block' : 'none';
+        });
+
+        // Navegação entre etapas
+        document.getElementById('btnProsseguirDados').addEventListener('click', () => {
+            if (carrinho.length === 0) {
+                alert('Carrinho vazio!');
+                return;
+            }
+            etapaCarrinho.style.display = 'none';
+            etapaDados.style.display = 'block';
+            modalTitle.innerText = '📋 Seus dados';
+        });
+
+        document.getElementById('btnVoltarCarrinho').addEventListener('click', () => {
+            etapaDados.style.display = 'none';
+            etapaCarrinho.style.display = 'block';
+            modalTitle.innerText = '🛒 Seu pedido';
+        });
+
+        document.getElementById('btnProsseguirEndereco').addEventListener('click', () => {
+            const nome = document.getElementById('nomeCliente').value.trim();
+            const telefone = document.getElementById('telefoneCliente').value.trim();
+            
+            if (!nome || !telefone) {
+                alert('Preencha nome e telefone!');
+                return;
+            }
+            
+            etapaDados.style.display = 'none';
+            etapaEndereco.style.display = 'block';
+            modalTitle.innerText = '📍 Endereço';
+        });
+
+        document.getElementById('btnVoltarDados').addEventListener('click', () => {
+            etapaEndereco.style.display = 'none';
+            etapaDados.style.display = 'block';
+            modalTitle.innerText = '📋 Seus dados';
+        });
+
+        document.getElementById('btnProsseguirOpcoes').addEventListener('click', () => {
+            const endereco = document.getElementById('enderecoCliente').value.trim();
+            const numero = document.getElementById('numeroCliente').value.trim();
+            const bairro = document.getElementById('bairroCliente').value.trim();
+            
+            if (!endereco || !numero || !bairro) {
+                alert('Preencha endereço, número e bairro!');
+                return;
+            }
+            
+            etapaEndereco.style.display = 'none';
+            etapaOpcoes.style.display = 'block';
+            modalTitle.innerText = '⚙️ Opções';
+        });
+
+        document.getElementById('btnVoltarEndereco').addEventListener('click', () => {
+            etapaOpcoes.style.display = 'none';
+            etapaEndereco.style.display = 'block';
+            modalTitle.innerText = '📍 Endereço';
+        });
+
+        // ==================== WHATSAPP ====================
+        document.getElementById('enviarWhatsAppBtn').addEventListener('click', () => {
+            const nome = document.getElementById('nomeCliente').value.trim();
+            const telefone = document.getElementById('telefoneCliente').value.trim();
+            const tipoServico = document.getElementById('tipoServico').value;
+            const endereco = document.getElementById('enderecoCliente').value.trim();
+            const numero = document.getElementById('numeroCliente').value.trim();
+            const complemento = document.getElementById('complementoCliente').value.trim();
+            const bairro = document.getElementById('bairroCliente').value.trim();
+            const referencia = document.getElementById('referenciaCliente').value.trim();
+            const tipoPedido = document.getElementById('tipoPedido').value;
+            const dataAgendamento = document.getElementById('dataAgendamento').value;
+            const comentario = document.getElementById('comentarioCliente').value.trim();
+            const cupom = document.getElementById('cupomCliente').value.trim();
+            const formaPagamento = document.getElementById('formaPagamento').value;
+            const troco = document.getElementById('trocoCliente').value.trim();
+
+            if (!nome || !telefone || !endereco || !numero || !bairro) {
+                alert('Preencha todos os campos obrigatórios!');
+                return;
+            }
+
+            if (carrinho.length === 0) {
+                alert('Carrinho vazio!');
+                return;
+            }
+
+            const numeroPedido = 'BR-' + Math.floor(Math.random() * 1000000000);
+            const agora = new Date();
+            const data = agora.toLocaleDateString('pt-BR');
+            const hora = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+            let enderecoCompleto = `${endereco}, ${numero}`;
+            if (complemento) enderecoCompleto += ` — ${complemento}`;
+            enderecoCompleto += ` — ${bairro}`;
+            if (referencia) enderecoCompleto += ` (${referencia})`;
+
+            let msg = `Venho de https://bomappetitemanuel-2.ola.click\n`;
+                msg += `${numeroPedido}\n`;
+                msg += `Data: ${data} - Horário: ${hora}\n\n`;
+                msg += `Tipo de serviço: ${tipoServico}\n\n`;
+                msg += `Nome: ${nome}\n`;
+                msg += `Telefone: +55${telefone}\n`;
+
+                // Endereço organizado
+                msg += `Endereço: ${endereco}, ${numero} - ${bairro}\n`;
+                if (complemento) {
+                    msg += `Complemento: ${complemento}\n`;
+                }
+                if (referencia) {
+                    msg += `Ponto de Referência: ${referencia}\n`;
+                }
+
+                msg += `\nProdutos:\n`;
+
+                let subtotal = 0;
+                carrinho.forEach(item => {
+                    const prod = produtos.find(p => p.id === item.id);
+                    if (prod && prod.preco > 0) {
+                        msg += `${item.qtd}x ${prod.nome} - R$ ${prod.preco.toFixed(2).replace('.',',')}\n`;
+                        subtotal += prod.preco * item.qtd;
+                    }
+                });
+
+                let delivery = 0;
+                if (tipoServico === 'Delivery' && subtotal < 50) delivery = 5.00;
+                const total = subtotal + delivery;
+
+                msg += `\nSubtotal: R$ ${subtotal.toFixed(2).replace('.',',')}\n`;
+                msg += `Delivery: ${delivery > 0 ? 'R$ ' + delivery.toFixed(2).replace('.',',') : 'Grátis'}\n`;
+                msg += `Total: R$ ${total.toFixed(2).replace('.',',')}\n\n`;
+                msg += `Forma de Pagamento: ${formaPagamento}\n`;
+                if (formaPagamento === 'Dinheiro' && troco) msg += `Troco para: R$ ${troco}\n`;
+                msg += `Status do pagamento: Não pago\n`;
+                msg += `Total a pagar: R$ ${total.toFixed(2).replace('.',',')}\n\n`;
+                msg += `Por favor, envie-nos esta mensagem agora. Assim que recebermos estaremos atendendo você.`;
+
+            window.open(`https://wa.me/5531991591673?text=${encodeURIComponent(msg)}`, '_blank');
+        });
+
+        // ==================== MODAIS ====================
+        const infoModal = document.getElementById('infoModal');
+        const btnInfo = document.getElementById('btnInfo');
+        const closeInfo = document.getElementById('closeInfoModal');
+        const closeInfoBottom = document.getElementById('closeInfoBottom');
+
+        btnInfo.addEventListener('click', () => infoModal.style.display = 'flex');
+        closeInfo.addEventListener('click', () => infoModal.style.display = 'none');
+        closeInfoBottom.addEventListener('click', () => infoModal.style.display = 'none');
+
+        document.getElementById('optionDelivery').addEventListener('click', function() {
+            document.getElementById('optionDelivery').classList.add('selected');
+            document.getElementById('optionRetirada').classList.remove('selected');
+            document.getElementById('tipoServico').value = 'Delivery';
+        });
+
+        document.getElementById('optionRetirada').addEventListener('click', function() {
+            document.getElementById('optionRetirada').classList.add('selected');
+            document.getElementById('optionDelivery').classList.remove('selected');
+            document.getElementById('tipoServico').value = 'Retirada';
+        });
+
+        const cartModal = document.getElementById('cartModal');
+        const fab = document.getElementById('cartFab');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const closeBottom = document.getElementById('closeModalBottomBtn');
+
+        fab.addEventListener('click', () => {
+            renderizarCarrinhoModal();
+            cartModal.style.display = 'flex';
+            etapaCarrinho.style.display = 'block';
+            etapaDados.style.display = 'none';
+            etapaEndereco.style.display = 'none';
+            etapaOpcoes.style.display = 'none';
+            modalTitle.innerText = '🛒 Seu pedido';
+        });
+
+        closeBtn.addEventListener('click', () => cartModal.style.display = 'none');
+        closeBottom.addEventListener('click', () => cartModal.style.display = 'none');
+
+        infoModal.addEventListener('click', (e) => {
+            if (e.target === infoModal) infoModal.style.display = 'none';
+        });
+        
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) cartModal.style.display = 'none';
+        });
+
+        // ==================== SCROLL SUAVE ====================
+        document.querySelectorAll('.cat-item').forEach(el => {
+            el.addEventListener('click', () => {
+                const cat = el.dataset.cat;
+                document.getElementById(cat).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        document.getElementById('btnHeroCardapio').addEventListener('click', () => {
+            document.getElementById('promocoes').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // ==================== INICIALIZAR ====================
+        renderizarCardapio();
+        atualizarCarrinho();
+        verificarHorario();
+        setInterval(verificarHorario, 60000);
+    })();
+</script>
+</body>
+</html>

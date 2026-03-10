@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Bom Appétit · Hamburgueria</title>
+    <title>Bom Appetit Emanuel </title>
+    <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="shortcut icon" href="img/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" con ent="MyWebSite" />
+    <link rel="manifest" href="img/site.webmanifest" />
     <style>
         * {
             margin: 0;
@@ -212,6 +218,7 @@
             gap: 16px;
             border: 1px solid #333;
             transition: 0.2s;
+            position: relative;
         }
 
         .card-produto:active {
@@ -261,6 +268,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         .produto-preco {
@@ -285,6 +294,24 @@
         .btn-adicionar:active {
             transform: translateY(3px);
             box-shadow: none;
+        }
+
+        .btn-adicionais {
+            background: #333;
+            border: 1px solid #ff4d1c;
+            color: #ffb347;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 4px 12px;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-top: 8px;
+            width: fit-content;
+        }
+
+        .btn-adicionais:hover {
+            background: #ff4d1c;
+            color: white;
         }
 
         /* ===== BOTÕES SOCIAIS ===== */
@@ -643,6 +670,113 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        /* ===== MODAL DE IMAGEM ===== */
+        .modal-imagem-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-imagem-content {
+            max-width: 90%;
+            max-height: 80vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-imagem-content img {
+            max-width: 100%;
+            max-height: 70vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 20px;
+            border: 3px solid #ff4d1c;
+            box-shadow: 0 10px 30px rgba(255, 77, 28, 0.3);
+        }
+
+        .btn-fechar-imagem {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: #ff4d1c;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .btn-fechar-imagem:hover {
+            background: #ff6a33;
+            transform: scale(1.1);
+        }
+
+        /* ===== MODAL DE ACRÉSCIMOS ===== */
+        .lista-adicionais {
+            margin: 20px 0;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .item-adicional {
+            background: #2a2a2a;
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #444;
+        }
+
+        .item-adicional input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #ff4d1c;
+        }
+
+        .item-adicional label {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            color: #ddd;
+        }
+
+        .adicional-preco {
+            color: #ffb347;
+            font-weight: 600;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-footer button {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -860,32 +994,127 @@
     </div>
 </div>
 
+<!-- MODAL DE VISUALIZAÇÃO DE IMAGEM -->
+<div class="modal-imagem-overlay" id="modalImagem">
+    <div class="modal-imagem-content">
+        <button class="btn-fechar-imagem" id="btnFecharImagem">✕</button>
+        <img id="imagemZoom" src="" alt="Produto">
+    </div>
+</div>
+
+<!-- MODAL DE ACRÉSCIMOS -->
+<div class="modal-overlay" id="modalAdicionais">
+    <div class="modal-panel">
+        <div class="modal-header">
+            <h3 id="modalAdicionaisTitulo">Adicionais</h3>
+            <button class="btn-fechar-modal" id="btnFecharModalAdicionais">✕</button>
+        </div>
+        <p id="modalAdicionaisLimite" style="color: #ffb347; margin-bottom: 15px;">Selecione até 4 opções</p>
+        <div id="listaAdicionais" class="lista-adicionais"></div>
+        <div class="total-modal" id="totalAdicionais">R$ 0,00</div>
+        <div class="modal-footer">
+            <button class="btn-prosseguir" id="btnConfirmarAdicionais">Confirmar</button>
+            <button class="btn-voltar" id="btnCancelarAdicionais">Cancelar</button>
+        </div>
+    </div>
+</div>
+
 <script>
     (function() {
         // ==================== PRODUTOS ====================
         const produtos = [
             // ===== HAMBÚRGUERES =====
-            { id: 'ham1', nome: 'Hamburguês', desc: 'Pão, 1 Carne Bovina, Presunto, Mussarela, Ovo, Milho, Alface, Tomate e Molho Da Casa', preco: 16.90, img: '🍔', cat: 'hamburgueres' },
+            { id: 'ham1', nome: 'Opcao', desc: 'Pão, 1 Carne Bovina, Presunto, Mussarela, Ovo, Milho, Alface, Tomate e Molho Da Casa', preco: 16.90, img: 'img/opcao.png', cat: 'hamburgueres' },
             { id: 'ham2', nome: 'Mistão Turbinado', desc: 'Pão de forma, carne de hamburguer, 3 fatias de mussarela derretida, 2 fatias de presunto, alface, tomate e molho da casa', preco: 14.50, img: '🥪', cat: 'hamburgueres' },
             { id: 'ham3', nome: 'X-Vegetariano', desc: 'Pão fresquinho com queijo mussarela derretido, ovo, Catupiry, pedaços de abacaxi, batata palha, tomate, alface, milho e molho da casa', preco: 19.90, img: '🌱', cat: 'hamburgueres' },
             { id: 'ham4', nome: 'X-Salada', desc: 'Pão macio, hambúrguer 90g, queijo derretido, presunto, alface, tomate, batata palha, bacon crocante e molho da casa', preco: 21.90, img: '🥗', cat: 'hamburgueres' },
-            { id: 'ham5', nome: 'Frango Explosão com Catupiry', desc: 'Dupla dose de frango (hambúrguer de frango + frango desfiado), milho, alface, tomate, batata palha, Catupiry e molho especial', preco: 24.90, img: '🐔', cat: 'hamburgueres' },
-            { id: 'ham6', nome: 'X-Ovo Bacon', desc: 'Pão tostado, hambúrguer 90g, queijo derretido, ovo, bacon crocante, alface, tomate, batata palha e molho da casa', preco: 24.90, img: '🥓', cat: 'hamburgueres' },
-            { id: 'ham7', nome: 'X-Bacon Emanuel Duplo', desc: 'Dois hambúrgueres 90g, queijo derretido, presunto, bacon crocante, alface, tomate, milho, batata palha e molho da casa', preco: 25.90, img: '🍔🍔', cat: 'hamburgueres' },
+            { id: 'ham5', nome: 'Frango Explosão com Catupiry', desc: 'Dupla dose de frango (hambúrguer de frango + frango desfiado), milho, alface, tomate, batata palha, Catupiry e molho especial', preco: 24.90, img: 'img/frango-c-catupiry.png', cat: 'hamburgueres' },
+            { id: 'ham6', nome: 'X-Ovo Bacon', desc: 'Pão tostado, hambúrguer 90g, queijo derretido, ovo, bacon crocante, alface, tomate, batata palha e molho da casa', preco: 24.90, img: 'img/x-ovo-bacon.png', cat: 'hamburgueres' },
+            { id: 'ham7', nome: 'X-Bacon Emanuel Duplo', desc: 'Dois hambúrgueres 90g, queijo derretido, presunto, bacon crocante, alface, tomate, milho, batata palha e molho da casa', preco: 25.90, img: 'img/x-bacon-duplo.png', cat: 'hamburgueres' },
             { id: 'ham8', nome: 'X-Tudo', desc: 'Pão, hambúrguer, ovo, presunto, bacon, queijo mussarela, milho, batata palha, Catupiry, alface, tomate e molho especial', preco: 23.00, img: '⭐', cat: 'hamburgueres' },
             { id: 'ham9', nome: 'X-Tudo especial', desc: 'Dois hambúrgueres, frango desfiado, bacon, ovo, presunto, queijo, milho, batata palha, alface, tomate e molho especial', preco: 25.90, img: '👑', cat: 'hamburgueres' },
             { id: 'ham10', nome: 'X-Calabresa Premium', desc: 'Pão tostado, hambúrguer, queijo, calabresa acebolada, alface, tomate, batata palha e molho da casa', preco: 27.90, img: '🌭', cat: 'hamburgueres' },
-            { id: 'ham11', nome: 'X-Tudão Emanuel', desc: 'Dois hambúrgueres, dois queijos, bacon, ovo, calabresa, salsicha, alface, tomate, milho, batata palha, molho da casa e abacaxi', preco: 34.90, img: '🚀', cat: 'hamburgueres' },
+            { id: 'ham11', nome: 'X-Tudão Emanuel', desc: 'Dois hambúrgueres, dois queijos, bacon, ovo, calabresa, salsicha, alface, tomate, milho, batata palha, molho da casa e abacaxi', preco: 34.90, img: 'img/x-tudao.png', cat: 'hamburgueres' },
 
-            // ===== COMBOS NA CAIXA =====
-            { id: 'combo1', nome: 'Kit Solteiro', desc: '1 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', preco: 50.00, img: '📦', cat: 'combos' },
-            { id: 'combo2', nome: 'Kit Casal', desc: '2 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', preco: 65.00, img: '📦📦', cat: 'combos' },
-            { id: 'combo3', nome: 'Kit dos Amigos', desc: '3 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', preco: 80.00, img: '📦📦📦', cat: 'combos' },
-            { id: 'combo4', nome: 'Kit Familia', desc: '4 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', preco: 90.00, img: '👪', cat: 'combos' },
+            // ===== COMBOS NA CAIXA C/ ACRESCIMO=====
+            { 
+                id: 'combo1', 
+                nome: 'Kit Solteiro', 
+                desc: '1 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', 
+                preco: 50.00, 
+                img: 'img/kit-solteiro.png', 
+                cat: 'combos',
+                temAdicionais: true,
+                limiteAdicionais: 4,
+                adicionais: [
+                    // ACOMPANHAMENTO PRINCIPAL (destacado)
+                    { nome: 'Smash Duplo', preco: 15.00, destaque: true },
+        
+                    // OUTROS ADICIONAIS
+                    { nome: 'Carne bovina artesanal 150grs', preco: 7.00 },
+                    { nome: 'Bacon defumado', preco: 5.00 },
+                    { nome: 'Anéis de cebola (2uni)', preco: 5.00 },
+                    { nome: 'Catupiry', preco: 4.00 },
+                    { nome: 'Cheddar', preco: 4.00 },
+                    { nome: 'Maionese verde da casa', preco: 3.00 },
+                    { nome: 'Barbecue da casa', preco: 3.00 },
+                    { nome: 'Maionese de bacon defumado da casa', preco: 3.00 },
+                    { nome: 'Sachê de ketchup Heinz (3uni)', preco: 2.50 },
+                    { nome: 'Sachê de maionese Heinz (3uni)', preco: 2.50 },
+                    { nome: 'Pasta de cebola caramelizada', preco: 6.00 },
+                    { nome: 'Cebola crispy', preco: 3.50 },
+                    { nome: 'Vinagrete agridoce', preco: 3.50 }
+                ] 
+            },
+            { 
+                id: 'combo2', 
+                nome: 'Kit Casal', 
+                desc: '2 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', 
+                preco: 65.00, 
+                img: 'img/kit-casal.png', 
+                cat: 'combos',
+                temAdicionais: true,
+                limiteAdicionais: 4,
+                adicionais: [
+                    // ACOMPANHAMENTO PRINCIPAL (destacado)
+                    { nome: 'Smash Duplo', preco: 15.00, destaque: true },
+        
+                    // OUTROS ADICIONAIS
+                    { nome: 'Carne bovina artesanal 150grs', preco: 7.00 },
+                    { nome: 'Bacon defumado', preco: 5.00 },
+                    { nome: 'Anéis de cebola (2uni)', preco: 5.00 },
+                    { nome: 'Catupiry', preco: 4.00 },
+                    { nome: 'Cheddar', preco: 4.00 },
+                    { nome: 'Maionese verde da casa', preco: 3.00 },
+                    { nome: 'Barbecue da casa', preco: 3.00 },
+                    { nome: 'Maionese de bacon defumado da casa', preco: 3.00 },
+                    { nome: 'Sachê de ketchup Heinz (3uni)', preco: 2.50 },
+                    { nome: 'Sachê de maionese Heinz (3uni)', preco: 2.50 },
+                    { nome: 'Pasta de cebola caramelizada', preco: 6.00 },
+                    { nome: 'Cebola crispy', preco: 3.50 },
+                    { nome: 'Vinagrete agridoce', preco: 3.50 }
+                ] 
+            },
+            { 
+                id: 'combo3', 
+                nome: 'Kit dos Amigos', 
+                desc: '3 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', 
+                preco: 80.00, 
+                img: '📦📦📦', 
+                cat: 'combos' 
+            },
+            { 
+                id: 'combo4', 
+                nome: 'Kit Familia', 
+                desc: '4 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', 
+                preco: 90.00, 
+                img: '👪', 
+                cat: 'combos' 
+            },
 
             // ===== PORÇÕES =====
-            { id: 'por1', nome: 'Batata com calabresa queijo e bacon', desc: 'Batata com calabresa, queijo e bacon (escolha entre cheddar ou mussarela)', preco: 26.00, img: '🍟', cat: 'porcoes' },
-            { id: 'por2', nome: 'Mini Chicken c/ batata queijo e bacon', desc: 'Mini Chicken, batata frita, queijo e bacon (escolha mussarela ou cheddar)', preco: 22.00, img: '🐔', cat: 'porcoes' },
+            { id: 'por1', nome: 'Batata com calabresa queijo e bacon', desc: 'Batata com calabresa, queijo e bacon (escolha entre cheddar ou mussarela)', preco: 26.00, img: 'img/batata-com-calabresa.png', cat: 'porcoes' },
+            { id: 'por2', nome: 'Mini Chicken c/ batata queijo e bacon', desc: 'Mini Chicken, batata frita, queijo e bacon (escolha mussarela ou cheddar)', preco: 22.00, img: 'img/mini-chicken.png', cat: 'porcoes' },
 
             // ===== REFRIGERANTES =====
             { id: 'refri1', nome: 'Coca Cola Mini 200ml', desc: 'Coca Cola 200ml', preco: 3.00, img: 'img/coca-mini.png', cat: 'bebidas' },
@@ -898,7 +1127,7 @@
             { id: 'refri8', nome: 'Guaraná Zero 350ml', desc: 'Guaraná Zero Lata 350ml', preco: 6.00, img: 'img/guarana-lata-zero.png', cat: 'bebidas' },
             { id: 'refri9', nome: 'Coca Cola 2 Litros', desc: 'Coca Cola 2 Litros', preco: 14.00, img: 'img/coca-cola-2l.png', cat: 'bebidas' },
             { id: 'refri10', nome: 'Fanta Guaraná 2 Litros', desc: 'Fanta Guaraná 2 Litros', preco: 12.00, img: 'img/fanta-guarana-2l.png', cat: 'bebidas' },
-            { id: 'refri11', nome: 'Mate Couro 1 Litro', desc: 'Mate Couro 1 Litro', preco: 8.00, img: 'img/mate-couro-1l.png', cat: 'bebidas' },
+            { id: 'refri11', nome: 'Guaraná 1 Litro', desc: 'Guaraná 1 Litro', preco: 8.00, img: 'img/guarana-1l.png', cat: 'bebidas' },
 
             // ===== SUCOS =====
             { id: 'suco1', nome: 'Del Valle Maracujá 290ml', desc: 'Suco Del Valle sabor Maracujá - 290ml', preco: 8.00, img: 'img/del-valle-maracuja.png', cat: 'sucos' },
@@ -908,11 +1137,11 @@
 
             // ===== PROMOÇÕES =====
             { id: 'promo1', nome: '2 X-Tudo + 1 Porção de Mini Chicken', desc: '2 X-Tudo + 1 Porção de Mini Chicken com Batata, Cheddar e Bacon + Guaraná 2 Litros', preco: 89.90, img: '🔥', cat: 'promocoes' },
-            { id: 'promo2', nome: '2 X-tudo + Mate Couro 1 Litro', desc: '2 X-tudo + Mate Couro 1 Litro', preco: 54.90, img: '🔥', cat: 'promocoes' },
+            { id: 'promo2', nome: '2 X-tudo + Guaraná 1 Litro', desc: '2 X-tudo + Guaraná 1 Litro', preco: 54.90, img: '🔥', cat: 'promocoes' },
             { id: 'promo3', nome: '4 X-tudo + Guaraná 2 Litros', desc: '4 X-tudo + Guaraná Antarctica 2 Litros', preco: 98.90, img: '🔥', cat: 'promocoes' },
             { id: 'promo4', nome: 'X-tudo + Coca cola 350ml', desc: 'X-tudo + Coca cola 350ml', preco: 28.90, img: '🔥', cat: 'promocoes' },
             { id: 'promo5', nome: 'X-Ovo Bacon + Coca cola 350ml', desc: 'X-Ovo Bacon + Coca cola 350ml', preco: 38.90, img: '🔥', cat: 'promocoes' },
-            { id: 'promo6', nome: 'Kit solteiro + Mate couro 1 litro', desc: 'Kit solteiro + Mate couro 1 litro', preco: 58.00, img: '🔥', cat: 'promocoes' },
+            { id: 'promo6', nome: 'Kit solteiro + Guaraná 1 litro', desc: 'Kit solteiro + Guaraná 1 litro', preco: 58.00, img: '🔥', cat: 'promocoes' },
             { id: 'promo7', nome: 'Kit casal + Guaraná 2 litros', desc: 'Kit casal + Guaraná 2 litros', preco: 77.00, img: '🔥', cat: 'promocoes' },
             { id: 'promo8', nome: 'Omelete 2 Ovos', desc: 'Omelete 2 Ovos', preco: 12.90, img: '🍳', cat: 'promocoes' },
             { id: 'promo9', nome: 'Omelete 4 Ovos', desc: 'Omelete 4 Ovos', preco: 18.90, img: '🍳', cat: 'promocoes' },
@@ -921,6 +1150,10 @@
 
         // ==================== CARRINHO ====================
         let carrinho = JSON.parse(localStorage.getItem('bomAppetitCart')) || [];
+
+        // ==================== VARIÁVEIS PARA ACRÉSCIMOS ====================
+        let produtoAtualSelecionado = null;
+        let adicionaisSelecionados = [];
 
         // ==================== VERIFICAR HORÁRIO ====================
         function verificarHorario() {
@@ -947,9 +1180,33 @@
             if (item) {
                 item.qtd += 1;
             } else {
-                carrinho.push({ id: prodId, qtd: 1 });
+                carrinho.push({ id: prodId, qtd: 1, adicionais: [] });
             }
             atualizarCarrinho();
+        }
+
+        function adicionarAoCarrinhoComAdicionais(prodId, adicionais) {
+            const produto = produtos.find(p => p.id === prodId);
+            if (!produto) return;
+            
+            const item = carrinho.find(i => i.id === prodId);
+            if (item) {
+                item.qtd += 1;
+                // Se já existir, substitui os adicionais (ou pode acumular - decidi substituir)
+                item.adicionais = adicionais;
+            } else {
+                carrinho.push({ 
+                    id: prodId, 
+                    qtd: 1, 
+                    adicionais: adicionais,
+                    precoAdicionais: calcularTotalAdicionais(adicionais)
+                });
+            }
+            atualizarCarrinho();
+        }
+
+        function calcularTotalAdicionais(adicionais) {
+            return adicionais.reduce((total, ad) => total + ad.preco, 0);
         }
 
         function alterarQuantidade(prodId, delta) {
@@ -974,7 +1231,13 @@
             let totalValor = 0;
             carrinho.forEach(item => {
                 const prod = produtos.find(p => p.id === item.id);
-                if (prod && prod.preco > 0) totalValor += prod.preco * item.qtd;
+                if (prod && prod.preco > 0) {
+                    totalValor += prod.preco * item.qtd;
+                    // Adiciona valor dos acréscimos se houver
+                    if (item.adicionais && item.adicionais.length > 0) {
+                        totalValor += item.adicionais.reduce((sum, ad) => sum + ad.preco, 0) * item.qtd;
+                    }
+                }
             });
             const totalStr = totalValor.toFixed(2).replace('.', ',');
             document.getElementById('cartTotalFab').innerText = `R$ ${totalStr}`;
@@ -994,16 +1257,30 @@
             carrinho.forEach(item => {
                 const prod = produtos.find(p => p.id === item.id);
                 if (!prod) return;
+                
+                let precoItem = prod.preco;
+                let adicionaisTexto = '';
+                
+                if (item.adicionais && item.adicionais.length > 0) {
+                    precoItem += item.adicionais.reduce((sum, ad) => sum + ad.preco, 0);
+                    adicionaisTexto = '<div style="font-size:0.7rem; color:#ffb347;">';
+                    item.adicionais.forEach(ad => {
+                        adicionaisTexto += `+ ${ad.nome} R$ ${ad.preco.toFixed(2).replace('.',',')}<br>`;
+                    });
+                    adicionaisTexto += '</div>';
+                }
+                
                 html += `
                     <li class="item-carrinho">
                         <div>
                             <div class="item-nome">${prod.nome}</div>
-                            <div class="item-preco">R$ ${prod.preco.toFixed(2).replace('.',',')}</div>
+                            <div class="item-preco">R$ ${precoItem.toFixed(2).replace('.',',')}</div>
+                            ${adicionaisTexto}
                         </div>
                         <div class="item-acoes">
                             <button class="btn-qtd-menos" data-id="${prod.id}">−</button>
                             <span class="item-qtd">${item.qtd}</span>
-                            <button class="btn-qtd-mais" data-id="${prod.id}">+</button>
+                            <button class="btn-qtd-mais" data-id="${prod.id}">&nbsp;+</button>
                             <button class="btn-remover" data-id="${prod.id}" style="color:#ff6666;">✕</button>
                         </div>
                     </li>
@@ -1024,6 +1301,85 @@
                 });
             });
         }
+
+        // ==================== FUNÇÕES DE ACRÉSCIMOS ====================
+            function abrirModalAdicionais(produto) {
+                produtoAtualSelecionado = produto;
+                adicionaisSelecionados = [];
+                
+                document.getElementById('modalAdicionaisTitulo').innerText = `Adicionais - ${produto.nome}`;
+                
+                let html = '';
+                
+                // Primeiro renderiza o item destacado (se houver)
+                produto.adicionais.forEach((adicional, index) => {
+                    if (adicional.destaque) {
+                        html += `
+                            <div class="item-adicional item-destaque" style="border: 2px solid #ff4d1c; background: #332211; margin-bottom: 20px; padding: 12px;">
+                                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                    <input type="checkbox" class="check-adicional" id="ad_${index}" data-nome="${adicional.nome}" data-preco="${adicional.preco}" style="margin-top: 3px;">
+                                    <div style="flex: 1;">
+                                        <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                                            <span>${adicional.nome}</span>
+                                            <span class="adicional-preco">&nbsp;+ R$ ${adicional.preco.toFixed(2).replace('.',',')}</span>
+                                        </div>
+                                        <div style="font-size: 0.7rem; color: #ffb347; margin-top: 2px; line-height: 1.2;">
+                                            (Acompanha 100G de batata frita com queijo ralado, cebola crispy e 1 refrigerante de 200ml)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                
+                // Depois renderiza os outros itens
+                produto.adicionais.forEach((adicional, index) => {
+                    if (!adicional.destaque) {
+                        html += `
+                            <div class="item-adicional">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <input type="checkbox" class="check-adicional" id="ad_${index}" data-nome="${adicional.nome}" data-preco="${adicional.preco}">
+                                    <label for="ad_${index}" style="flex: 1; display: flex; justify-content: space-between; margin: 0;">
+                                        <span>${adicional.nome}</span>
+                                        <span class="adicional-preco">&nbsp;+ R$ ${adicional.preco.toFixed(2).replace('.',',')}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                
+                document.getElementById('listaAdicionais').innerHTML = html;
+                document.getElementById('totalAdicionais').innerText = 'R$ 0,00';
+                document.getElementById('modalAdicionais').style.display = 'flex';
+                
+                // Adicionar eventos aos checkboxes
+                document.querySelectorAll('.check-adicional').forEach(cb => {
+                    cb.addEventListener('change', function() {
+                        const selecionados = document.querySelectorAll('.check-adicional:checked');
+                        
+                        if (selecionados.length > produto.limiteAdicionais) {
+                            this.checked = false;
+                            alert(`Máximo de ${produto.limiteAdicionais} itens por kit!`);
+                            return;
+                        }
+                        
+                        // Atualizar lista de selecionados
+                        adicionaisSelecionados = [];
+                        selecionados.forEach(c => {
+                            adicionaisSelecionados.push({
+                                nome: c.dataset.nome,
+                                preco: parseFloat(c.dataset.preco)
+                            });
+                        });
+                        
+                        // Atualizar total
+                        const total = adicionaisSelecionados.reduce((sum, ad) => sum + ad.preco, 0);
+                        document.getElementById('totalAdicionais').innerText = `R$ ${total.toFixed(2).replace('.',',')}`;
+                    });
+                });
+            }
 
         // ==================== RENDERIZAR CARDÁPIO ====================
         function renderizarCardapio() {
@@ -1054,8 +1410,16 @@
                     imagemHtml = `<img src="${prod.img}" alt="${prod.nome}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:2.5rem;\'>🍔</div>';">`;
                 }
                 
+                // Verifica se é imagem real (não emoji)
+                const isImagemReal = !isEmoji;
+
+                let botoesExtras = '';
+                if (prod.temAdicionais) {
+                    botoesExtras = `<button class="btn-adicionais" data-id="${prod.id}" data-nome="${prod.nome}"> Adicionais </button>`;
+                }
+
                 card.innerHTML = `
-                    <div class="produto-imagem">
+                    <div class="produto-imagem" ${isImagemReal ? `style="cursor: pointer;" onclick="window.abrirImagem('${prod.img}')"` : ''}>
                         ${imagemHtml}
                     </div>
                     <div class="produto-info">
@@ -1063,8 +1427,9 @@
                         <div class="produto-desc">${prod.desc.substring(0, 60)}${prod.desc.length > 60 ? '...' : ''}</div>
                         <div class="produto-preco-row">
                             <span class="produto-preco">${precoDisplay}</span>
-                            ${prod.preco > 0 ? `<button class="btn-adicionar" data-id="${prod.id}">+</button>` : ''}
+                            ${prod.preco > 0 ? `<button class="btn-adicionar" data-id="${prod.id}">&nbsp;+</button>` : ''}
                         </div>
+                        ${botoesExtras}
                     </div>
                 `;
                 
@@ -1077,7 +1442,67 @@
                     adicionarAoCarrinho(btn.dataset.id);
                 });
             });
+
+            document.querySelectorAll('.btn-adicionais').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const prodId = btn.dataset.id;
+                    const produto = produtos.find(p => p.id === prodId);
+                    if (produto) {
+                        abrirModalAdicionais(produto);
+                    }
+                });
+            });
         }
+
+        // ==================== ZOOM DA IMAGEM ====================
+        const modalImagem = document.getElementById('modalImagem');
+        const imagemZoom = document.getElementById('imagemZoom');
+        const btnFecharImagem = document.getElementById('btnFecharImagem');
+
+        window.abrirImagem = function(src) {
+            if (modalImagem && imagemZoom) {
+                imagemZoom.src = src;
+                modalImagem.style.display = 'flex';
+            }
+        };
+
+        btnFecharImagem.addEventListener('click', () => {
+            modalImagem.style.display = 'none';
+        });
+
+        modalImagem.addEventListener('click', (e) => {
+            if (e.target === modalImagem) {
+                modalImagem.style.display = 'none';
+            }
+        });
+
+        // ==================== MODAL DE ACRÉSCIMOS ====================
+        const modalAdicionais = document.getElementById('modalAdicionais');
+        const btnFecharModalAdicionais = document.getElementById('btnFecharModalAdicionais');
+        const btnCancelarAdicionais = document.getElementById('btnCancelarAdicionais');
+        const btnConfirmarAdicionais = document.getElementById('btnConfirmarAdicionais');
+
+        btnFecharModalAdicionais.addEventListener('click', () => {
+            modalAdicionais.style.display = 'none';
+        });
+
+        btnCancelarAdicionais.addEventListener('click', () => {
+            modalAdicionais.style.display = 'none';
+        });
+
+        btnConfirmarAdicionais.addEventListener('click', () => {
+            if (produtoAtualSelecionado) {
+                adicionarAoCarrinhoComAdicionais(produtoAtualSelecionado.id, adicionaisSelecionados);
+                modalAdicionais.style.display = 'none';
+            }
+        });
+
+        modalAdicionais.addEventListener('click', (e) => {
+            if (e.target === modalAdicionais) {
+                modalAdicionais.style.display = 'none';
+            }
+        });
 
         // ==================== CONTROLE DE ETAPAS ====================
         const etapaCarrinho = document.getElementById('etapaCarrinho');
@@ -1086,17 +1511,14 @@
         const etapaOpcoes = document.getElementById('etapaOpcoes');
         const modalTitle = document.getElementById('modalTitle');
 
-        // Mostrar/esconder campo de agendamento
         document.getElementById('tipoPedido').addEventListener('change', function() {
             document.getElementById('campoAgendamento').style.display = this.value === 'agendar' ? 'block' : 'none';
         });
 
-        // Mostrar/esconder campo de troco
         document.getElementById('formaPagamento').addEventListener('change', function() {
             document.getElementById('campoTroco').style.display = this.value === 'Dinheiro' ? 'block' : 'none';
         });
 
-        // Navegação entre etapas
         document.getElementById('btnProsseguirDados').addEventListener('click', () => {
             if (carrinho.length === 0) {
                 alert('Carrinho vazio!');
@@ -1186,50 +1608,56 @@
             const data = agora.toLocaleDateString('pt-BR');
             const hora = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-            let enderecoCompleto = `${endereco}, ${numero}`;
-            if (complemento) enderecoCompleto += ` — ${complemento}`;
-            enderecoCompleto += ` — ${bairro}`;
-            if (referencia) enderecoCompleto += ` (${referencia})`;
-
             let msg = `Venho de https://bomappetitemanuel-2.ola.click\n`;
-                msg += `${numeroPedido}\n`;
-                msg += `Data: ${data} - Horário: ${hora}\n\n`;
-                msg += `Tipo de serviço: ${tipoServico}\n\n`;
-                msg += `Nome: ${nome}\n`;
-                msg += `Telefone: +55${telefone}\n`;
+            msg += `${numeroPedido}\n`;
+            msg += `Data: ${data} - Horário: ${hora}\n\n`;
+            msg += `Tipo de serviço: ${tipoServico}\n\n`;
+            msg += `Nome: ${nome}\n`;
+            msg += `Telefone: +55${telefone}\n`;
 
-                // Endereço organizado
-                msg += `Endereço: ${endereco}, ${numero} - ${bairro}\n`;
-                if (complemento) {
-                    msg += `Complemento: ${complemento}\n`;
-                }
-                if (referencia) {
-                    msg += `Ponto de Referência: ${referencia}\n`;
-                }
+            msg += `Endereço: ${endereco}, ${numero} - ${bairro}\n`;
+            if (complemento) {
+                msg += `Complemento: ${complemento}\n`;
+            }
+            if (referencia) {
+                msg += `Ponto de Referência: ${referencia}\n`;
+            }
 
-                msg += `\nProdutos:\n`;
+            msg += `\nProdutos:\n`;
 
-                let subtotal = 0;
-                carrinho.forEach(item => {
-                    const prod = produtos.find(p => p.id === item.id);
-                    if (prod && prod.preco > 0) {
-                        msg += `${item.qtd}x ${prod.nome} - R$ ${prod.preco.toFixed(2).replace('.',',')}\n`;
-                        subtotal += prod.preco * item.qtd;
+            let subtotal = 0;
+            carrinho.forEach(item => {
+                const prod = produtos.find(p => p.id === item.id);
+                if (prod && prod.preco > 0) {
+                    let precoItem = prod.preco;
+                    msg += `${item.qtd}x ${prod.nome}`;
+                    
+                    if (item.adicionais && item.adicionais.length > 0) {
+                        msg += ` com: `;
+                        item.adicionais.forEach((ad, idx) => {
+                            precoItem += ad.preco;
+                            msg += `${ad.nome}`;
+                            if (idx < item.adicionais.length - 1) msg += `, `;
+                        });
                     }
-                });
+                    
+                    msg += ` - R$ ${precoItem.toFixed(2).replace('.',',')}\n`;
+                    subtotal += precoItem * item.qtd;
+                }
+            });
 
-                let delivery = 0;
-                if (tipoServico === 'Delivery' && subtotal < 50) delivery = 5.00;
-                const total = subtotal + delivery;
+            let delivery = 0;
+            if (tipoServico === 'Delivery' && subtotal < 50) delivery = 5.00;
+            const total = subtotal + delivery;
 
-                msg += `\nSubtotal: R$ ${subtotal.toFixed(2).replace('.',',')}\n`;
-                msg += `Delivery: ${delivery > 0 ? 'R$ ' + delivery.toFixed(2).replace('.',',') : 'Grátis'}\n`;
-                msg += `Total: R$ ${total.toFixed(2).replace('.',',')}\n\n`;
-                msg += `Forma de Pagamento: ${formaPagamento}\n`;
-                if (formaPagamento === 'Dinheiro' && troco) msg += `Troco para: R$ ${troco}\n`;
-                msg += `Status do pagamento: Não pago\n`;
-                msg += `Total a pagar: R$ ${total.toFixed(2).replace('.',',')}\n\n`;
-                msg += `Por favor, envie-nos esta mensagem agora. Assim que recebermos estaremos atendendo você.`;
+            msg += `\nSubtotal: R$ ${subtotal.toFixed(2).replace('.',',')}\n`;
+            msg += `Delivery: ${delivery > 0 ? 'R$ ' + delivery.toFixed(2).replace('.',',') : 'Grátis'}\n`;
+            msg += `Total: R$ ${total.toFixed(2).replace('.',',')}\n\n`;
+            msg += `Forma de Pagamento: ${formaPagamento}\n`;
+            if (formaPagamento === 'Dinheiro' && troco) msg += `Troco para: R$ ${troco}\n`;
+            msg += `Status do pagamento: Não pago\n`;
+            msg += `Total a pagar: R$ ${total.toFixed(2).replace('.',',')}\n\n`;
+            msg += `Por favor, envie-nos esta mensagem agora. Assim que recebermos estaremos atendendo você.`;
 
             window.open(`https://wa.me/5531991591673?text=${encodeURIComponent(msg)}`, '_blank');
         });

@@ -1181,7 +1181,7 @@
 
             // Injeta adicionais automaticamente nos hambúrgueres
             produtos.forEach(prod => {
-                if (prod.cat === 'hamburgueres' || prod.id === 'combo3' || prod.id === 'combo4') {
+                if (prod.cat === 'hamburgueres' || prod.cat === 'promocoes' || prod.id === 'combo3' || prod.id === 'combo4') {
                     prod.adicionais = adicionaisHamburguer;
                     prod.limiteAdicionais = 6;
                     prod.temAdicionais = true;

@@ -778,6 +778,15 @@
         .modal-footer button {
             flex: 1;
         }
+
+        /* ===== DESCRIÇÃO HAMBURGUERES ===== */
+                .produto-desc {
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+            display: block;
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -1010,7 +1019,7 @@
             <h3 id="modalAdicionaisTitulo">Adicionais</h3>
             <button class="btn-fechar-modal" id="btnFecharModalAdicionais">✕</button>
         </div>
-        <p id="modalAdicionaisLimite" style="color: #ffb347; margin-bottom: 15px;">Selecione até 4 opções</p>
+        <p id="modalAdicionaisLimite" style="color: #ffb347; margin-bottom: 15px;">Selecione as opções:</p>
         <div id="listaAdicionais" class="lista-adicionais"></div>
         <div class="total-modal" id="totalAdicionais">R$ 0,00</div>
         <div class="modal-footer">
@@ -1021,6 +1030,15 @@
 </div>
 
 <script>
+        const adicionaisHamburguer = [
+        { nome: 'Carne bovina', preco: 6.00 },
+        { nome: 'Carne de frango', preco: 5.00 },
+        { nome: 'Ovo', preco: 3.00 },
+        { nome: 'Presunto', preco: 2.50 },
+        { nome: 'Mussarela', preco: 4.00 },
+        { nome: 'Calabresa', preco: 7.00 },
+        { nome: 'Frango desfiado', preco: 7.00 }
+    ];
     (function() {
         // ==================== PRODUTOS ====================
         const produtos = [
@@ -1102,7 +1120,8 @@
                 desc: '3 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', 
                 preco: 80.00, 
                 img: '📦📦📦', 
-                cat: 'combos' 
+                cat: 'combos',
+                temAdicionais: true
             },
             { 
                 id: 'combo4', 
@@ -1110,7 +1129,8 @@
                 desc: '4 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', 
                 preco: 90.00, 
                 img: '👪', 
-                cat: 'combos' 
+                cat: 'combos', 
+                temAdicionais: true
             },
 
             // ===== PORÇÕES =====
@@ -1138,7 +1158,7 @@
 
             // ===== PROMOÇÕES =====
             { id: 'promo1', nome: '2 X-Tudo + 1 Porção de Mini Chicken', desc: '2 X-Tudo + 1 Porção de Mini Chicken com Batata, Cheddar e Bacon + Guaraná 2 Litros', preco: 69.90, img: '🔥', cat: 'promocoes' },
-            { id: 'promo2', nome: '2 X-tudo + Guaraná 1 Litro', desc: '2 X-tudo + Guaraná 1 Litro', preco: 54.90, img: '🔥', cat: 'promocoes' },
+            { id: 'promo2', nome: '2 X-tudo + Guaraná 1 Litro', desc: '2 X-tudo + Guaraná 1 Litro', preco: 49.90, img: '🔥', cat: 'promocoes' },
             { id: 'promo3', nome: '4 X-tudo + Guaraná 2 Litros', desc: '4 X-tudo + Guaraná Antarctica 2 Litros', preco: 98.90, img: '🔥', cat: 'promocoes' },
             { id: 'promo4', nome: 'X-tudo + Coca cola 350ml', desc: 'X-tudo + Coca cola 350ml', preco: 28.90, img: '🔥', cat: 'promocoes' },
             { id: 'promo5', nome: 'X-Ovo Bacon + Coca cola 350ml', desc: 'X-Ovo Bacon + Coca cola 350ml', preco: 29.90, img: '🔥', cat: 'promocoes' },
@@ -1148,6 +1168,25 @@
             { id: 'promo9', nome: 'Omelete 4 Ovos', desc: 'Omelete 4 Ovos', preco: 18.90, img: '🍳', cat: 'promocoes' },
             { id: 'promo10', nome: 'Laricão 3x1', desc: 'X-Bacon Emanuel Duplo + 100g Batata + Coca Cola lata', preco: 34.90, img: '🔥', cat: 'promocoes' }
         ];
+
+                    const adicionaisHamburguer = [
+                { nome: 'Carne bovina', preco: 6.00 },
+                { nome: 'Carne de frango', preco: 5.00 },
+                { nome: 'Ovo', preco: 3.00 },
+                { nome: 'Presunto', preco: 2.50 },
+                { nome: 'Mussarela', preco: 4.00 },
+                { nome: 'Calabresa', preco: 7.00 },
+                { nome: 'Frango desfiado', preco: 7.00 }
+            ];
+
+            // Injeta adicionais automaticamente nos hambúrgueres
+            produtos.forEach(prod => {
+                if (prod.cat === 'hamburgueres' || prod.id === 'combo3' || prod.id === 'combo4') {
+                    prod.adicionais = adicionaisHamburguer;
+                    prod.limiteAdicionais = 6;
+                    prod.temAdicionais = true;
+                }
+            });
 
         // ==================== CARRINHO ====================
         let carrinho = JSON.parse(localStorage.getItem('bomAppetitCart')) || [];
@@ -1360,12 +1399,6 @@
                     cb.addEventListener('change', function() {
                         const selecionados = document.querySelectorAll('.check-adicional:checked');
                         
-                        if (selecionados.length > produto.limiteAdicionais) {
-                            this.checked = false;
-                            alert(`Máximo de ${produto.limiteAdicionais} itens por kit!`);
-                            return;
-                        }
-                        
                         // Atualizar lista de selecionados
                         adicionaisSelecionados = [];
                         selecionados.forEach(c => {
@@ -1425,7 +1458,7 @@
                     </div>
                     <div class="produto-info">
                         <div class="produto-nome">${prod.nome}</div>
-                        <div class="produto-desc">${prod.desc.substring(0, 60)}${prod.desc.length > 60 ? '...' : ''}</div>
+                        <div class="produto-desc"> ${prod.desc} </div>
                         <div class="produto-preco-row">
                             <span class="produto-preco">${precoDisplay}</span>
                             ${prod.preco > 0 ? `<button class="btn-adicionar" data-id="${prod.id}">&nbsp;+</button>` : ''}
@@ -1609,7 +1642,7 @@
             const data = agora.toLocaleDateString('pt-BR');
             const hora = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-            let msg = `Venho de https://bomappetitemanuel-2.ola.click\n`;
+            let msg = `Venho de https://www.bomappetitemanuel.com.br\n`;
             msg += `${numeroPedido}\n`;
             msg += `Data: ${data} - Horário: ${hora}\n\n`;
             msg += `Tipo de serviço: ${tipoServico}\n\n`;

@@ -1044,15 +1044,15 @@
         const produtos = [
             // ===== HAMBÚRGUERES =====
             { id: 'ham1', nome: 'Opcao', desc: 'Pão, 1 Carne Bovina, Presunto, Mussarela, Ovo, Milho, Alface, Tomate e Molho Da Casa', preco: 16.90, img: 'img/opcao.png', cat: 'hamburgueres' },
-            { id: 'ham2', nome: 'Mistão Turbinado', desc: 'Pão de forma, carne de hamburguer, 3 fatias de mussarela derretida, 2 fatias de presunto, alface, tomate e molho da casa', preco: 14.50, img: '🥪', cat: 'hamburgueres' },
-            { id: 'ham3', nome: 'X-Vegetariano', desc: 'Pão fresquinho com queijo mussarela derretido, ovo, Catupiry, pedaços de abacaxi, batata palha, tomate, alface, milho e molho da casa', preco: 19.90, img: '🌱', cat: 'hamburgueres' },
-            { id: 'ham4', nome: 'X-Salada', desc: 'Pão macio, hambúrguer 90g, queijo derretido, presunto, alface, tomate, batata palha, bacon crocante e molho da casa', preco: 21.90, img: '🥗', cat: 'hamburgueres' },
+            { id: 'ham2', nome: 'Mistão Turbinado', desc: 'Pão de forma, carne de hamburguer, 3 fatias de mussarela derretida, 2 fatias de presunto, alface, tomate e molho da casa', preco: 14.50, img: 'img/mistao-turbinado.jpeg', cat: 'hamburgueres' },
+            { id: 'ham3', nome: 'X-Vegetariano', desc: 'Pão fresquinho com queijo mussarela derretido, ovo, Catupiry, pedaços de abacaxi, batata palha, tomate, alface, milho e molho da casa', preco: 19.90, img: 'img/x-vegetariano.jpeg', cat: 'hamburgueres' },
+            { id: 'ham4', nome: 'X-Salada', desc: 'Pão macio, hambúrguer 90g, queijo derretido, presunto, alface, tomate, batata palha, bacon crocante e molho da casa', preco: 21.90, img: 'img/x-salada.jpeg', cat: 'hamburgueres' },
             { id: 'ham5', nome: 'Frango Explosão com Catupiry', desc: 'Dupla dose de frango (hambúrguer de frango + frango desfiado), milho, alface, tomate, batata palha, Catupiry e molho especial', preco: 24.90, img: 'img/frango-c-catupiry.png', cat: 'hamburgueres' },
             { id: 'ham6', nome: 'X-Ovo Bacon', desc: 'Pão tostado, hambúrguer 90g, queijo derretido, ovo, bacon crocante, alface, tomate, batata palha e molho da casa', preco: 24.90, img: 'img/x-ovo-bacon.png', cat: 'hamburgueres' },
             { id: 'ham7', nome: 'X-Bacon Emanuel Duplo', desc: 'Dois hambúrgueres 90g, queijo derretido, presunto, bacon crocante, alface, tomate, milho, batata palha e molho da casa', preco: 25.90, img: 'img/x-bacon-duplo.png', cat: 'hamburgueres' },
-            { id: 'ham8', nome: 'X-Tudo', desc: 'Pão, hambúrguer, ovo, presunto, bacon, queijo mussarela, milho, batata palha, Catupiry, alface, tomate e molho especial', preco: 23.00, img: '⭐', cat: 'hamburgueres' },
-            { id: 'ham9', nome: 'X-Tudo especial', desc: 'Dois hambúrgueres, frango desfiado, bacon, ovo, presunto, queijo, milho, batata palha, alface, tomate e molho especial', preco: 25.90, img: '👑', cat: 'hamburgueres' },
-            { id: 'ham10', nome: 'X-Calabresa Premium', desc: 'Pão tostado, hambúrguer, queijo, calabresa acebolada, alface, tomate, batata palha e molho da casa', preco: 27.90, img: '🌭', cat: 'hamburgueres' },
+            { id: 'ham8', nome: 'X-Tudo', desc: 'Pão, hambúrguer, ovo, presunto, bacon, queijo mussarela, milho, batata palha, Catupiry, alface, tomate e molho especial', preco: 23.00, img: 'img/x-tudo.jpeg', cat: 'hamburgueres' },
+            { id: 'ham9', nome: 'X-Tudo especial', desc: 'Dois hambúrgueres, frango desfiado, bacon, ovo, presunto, queijo, milho, batata palha, alface, tomate e molho especial', preco: 25.90, img: 'img/x-tudo-especial.jpeg', cat: 'hamburgueres' },
+            { id: 'ham10', nome: 'X-Calabresa Premium', desc: 'Pão tostado, hambúrguer, queijo, calabresa acebolada, alface, tomate, batata palha e molho da casa', preco: 27.90, img: 'img/x-calabresa-premium.jpeg', cat: 'hamburgueres' },
             { id: 'ham11', nome: 'X-Tudão Emanuel', desc: 'Dois hambúrgueres, dois queijos, bacon, ovo, calabresa, salsicha, alface, tomate, milho, batata palha, molho da casa e abacaxi', preco: 34.90, img: 'img/x-tudao.png', cat: 'hamburgueres' },
 
             // ===== COMBOS NA CAIXA C/ ACRESCIMO=====
@@ -1061,7 +1061,7 @@
                 nome: 'Kit Solteiro', 
                 desc: '1 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', 
                 preco: 50.00, 
-                img: 'img/kit-solteiro.png', 
+                img: 'img/kit-solteiro.jpeg', 
                 cat: 'combos',
                 temAdicionais: true,
                 limiteAdicionais: 4,
@@ -1080,9 +1080,7 @@
                     { nome: 'Maionese de bacon defumado da casa', preco: 3.00 },
                     { nome: 'Sachê de ketchup Heinz (3uni)', preco: 2.50 },
                     { nome: 'Sachê de maionese Heinz (3uni)', preco: 2.50 },
-                    { nome: 'Pasta de cebola caramelizada', preco: 6.00 },
-                    { nome: 'Cebola crispy', preco: 3.50 },
-                    { nome: 'Vinagrete agridoce', preco: 3.50 }
+                    { nome: 'Pasta de cebola caramelizada', preco: 6.00 }
                 ] 
             },
             { 
@@ -1090,7 +1088,7 @@
                 nome: 'Kit Casal', 
                 desc: '2 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', 
                 preco: 65.00, 
-                img: 'img/kit-casal.png', 
+                img: 'img/kit-casal.jpeg', 
                 cat: 'combos',
                 temAdicionais: true,
                 limiteAdicionais: 4,
@@ -1109,9 +1107,7 @@
                     { nome: 'Maionese de bacon defumado da casa', preco: 3.00 },
                     { nome: 'Sachê de ketchup Heinz (3uni)', preco: 2.50 },
                     { nome: 'Sachê de maionese Heinz (3uni)', preco: 2.50 },
-                    { nome: 'Pasta de cebola caramelizada', preco: 6.00 },
-                    { nome: 'Cebola crispy', preco: 3.50 },
-                    { nome: 'Vinagrete agridoce', preco: 3.50 }
+                    { nome: 'Pasta de cebola caramelizada', preco: 6.00 }
                 ] 
             },
             { 
@@ -1119,7 +1115,7 @@
                 nome: 'Kit dos Amigos', 
                 desc: '3 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', 
                 preco: 80.00, 
-                img: '📦📦📦', 
+                img: 'img/kit-dos-amigos.jpeg', 
                 cat: 'combos',
                 temAdicionais: true
             },
@@ -1128,7 +1124,7 @@
                 nome: 'Kit Familia', 
                 desc: '4 X-Tudo (sem batata palha), batata frita, cheddar, bacon, calabresa, onion rings e nuggets', 
                 preco: 90.00, 
-                img: '👪', 
+                img: 'img/kit-familia.jpeg', 
                 cat: 'combos', 
                 temAdicionais: true
             },
@@ -1157,16 +1153,16 @@
             { id: 'suco4', nome: 'Del Valle Uva 290ml', desc: 'Suco Del Valle sabor Uva - 290ml', preco: 8.00, img: 'img/del-valle-uva.png', cat: 'sucos' },
 
             // ===== PROMOÇÕES =====
-            { id: 'promo1', nome: '2 X-Tudo + 1 Porção de Mini Chicken', desc: '2 X-Tudo + 1 Porção de Mini Chicken com Batata, Cheddar e Bacon + Guaraná 2 Litros', preco: 69.90, img: '🔥', cat: 'promocoes' },
-            { id: 'promo2', nome: '2 X-tudo + Guaraná 1 Litro', desc: '2 X-tudo + Guaraná 1 Litro', preco: 49.90, img: '🔥', cat: 'promocoes' },
-            { id: 'promo3', nome: '4 X-tudo + Guaraná 2 Litros', desc: '4 X-tudo + Guaraná Antarctica 2 Litros', preco: 98.90, img: '🔥', cat: 'promocoes' },
-            { id: 'promo4', nome: 'X-tudo + Coca cola 350ml', desc: 'X-tudo + Coca cola 350ml', preco: 28.90, img: '🔥', cat: 'promocoes' },
-            { id: 'promo5', nome: 'X-Ovo Bacon + Coca cola 350ml', desc: 'X-Ovo Bacon + Coca cola 350ml', preco: 29.90, img: '🔥', cat: 'promocoes' },
-            { id: 'promo6', nome: 'Kit solteiro + Guaraná 1 litro', desc: 'Kit solteiro + Guaraná 1 litro', preco: 58.00, img: '🔥', cat: 'promocoes' },
-            { id: 'promo7', nome: 'Kit casal + Guaraná 2 litros', desc: 'Kit casal + Guaraná 2 litros', preco: 77.00, img: '🔥', cat: 'promocoes' },
-            { id: 'promo8', nome: 'Omelete 2 Ovos', desc: 'Omelete 2 Ovos', preco: 12.90, img: '🍳', cat: 'promocoes' },
-            { id: 'promo9', nome: 'Omelete 4 Ovos', desc: 'Omelete 4 Ovos', preco: 18.90, img: '🍳', cat: 'promocoes' },
-            { id: 'promo10', nome: 'Laricão 3x1', desc: 'X-Bacon Emanuel Duplo + 100g Batata + Coca Cola lata', preco: 34.90, img: '🔥', cat: 'promocoes' }
+            { id: 'promo1', nome: '2 X-Tudo + 1 Porção de Mini Chicken', desc: '2 X-Tudo + 1 Porção de Mini Chicken com Batata, Cheddar e Bacon + Guaraná 2 Litros', preco: 69.90, img: 'img/2-xtudo-porcao.jpeg', cat: 'promocoes' },
+            { id: 'promo2', nome: '2 X-tudo + Guaraná 1 Litro', desc: '2 X-tudo + Guaraná 1 Litro', preco: 49.90, img: 'img/2-xtudo-guarana.jpeg', cat: 'promocoes' },
+            { id: 'promo3', nome: '4 X-tudo + Guaraná 2 Litros', desc: '4 X-tudo + Guaraná Antarctica 2 Litros', preco: 98.90, img: 'img/4-xtudo-guarana.jpeg', cat: 'promocoes' },
+            { id: 'promo4', nome: 'X-tudo + Coca cola 350ml', desc: 'X-tudo + Coca cola 350ml', preco: 28.90, img: 'img/x-tudo-coca350.jpeg', cat: 'promocoes' },
+            { id: 'promo5', nome: 'X-Ovo Bacon + Coca cola 350ml', desc: 'X-Ovo Bacon + Coca cola 350ml', preco: 29.90, img: 'img/x-ovo-coca350.jpeg', cat: 'promocoes' },
+            { id: 'promo6', nome: 'Kit solteiro + Guaraná 1 litro', desc: 'Kit solteiro + Guaraná 1 litro', preco: 58.00, img: 'img/kit-solteiro-guarana.jpeg', cat: 'promocoes' },
+            { id: 'promo7', nome: 'Kit casal + Guaraná 2 litros', desc: 'Kit casal + Guaraná 2 litros', preco: 77.00, img: 'img/kit-casal-guarana.jpeg', cat: 'promocoes' },
+            { id: 'promo8', nome: 'Omelete 2 Ovos', desc: 'Omelete 2 Ovos', preco: 12.90, img: 'img/omelete-2ovos.jpeg', cat: 'promocoes' },
+            { id: 'promo9', nome: 'Omelete 4 Ovos', desc: 'Omelete 4 Ovos', preco: 18.90, img: 'img/omelete-4ovos.png', cat: 'promocoes' },
+            { id: 'promo10', nome: 'Laricão 3x1', desc: 'X-Bacon Emanuel Duplo + 100g Batata + Coca Cola lata', preco: 34.90, img: 'img/laricao-3x1.jpeg', cat: 'promocoes' }
         ];
 
                     const adicionaisHamburguer = [
@@ -1179,7 +1175,6 @@
                 { nome: 'Frango desfiado', preco: 7.00 }
             ];
 
-            // Injeta adicionais automaticamente nos hambúrgueres
             produtos.forEach(prod => {
                 if (prod.cat === 'hamburgueres' || prod.cat === 'promocoes' || prod.id === 'combo3' || prod.id === 'combo4') {
                     prod.adicionais = adicionaisHamburguer;
@@ -1195,7 +1190,7 @@
         let produtoAtualSelecionado = null;
         let adicionaisSelecionados = [];
 
-        // ==================== VERIFICAR HORÁRIO ====================
+        // ==================== verificar horario de funcionamento ====================
         function verificarHorario() {
             const agora = new Date();
             const hora = agora.getHours();
@@ -1364,7 +1359,7 @@
                                             <span class="adicional-preco">&nbsp;+ R$ ${adicional.preco.toFixed(2).replace('.',',')}</span>
                                         </div>
                                         <div style="font-size: 0.7rem; color: #ffb347; margin-top: 2px; line-height: 1.2;">
-                                            (Acompanha 100G de batata frita com queijo ralado, cebola crispy e 1 refrigerante de 200ml)
+                                            (Acompanha 100G de batata frita com queijo ralado e 1 refrigerante de 200ml)
                                         </div>
                                     </div>
                                 </div>
